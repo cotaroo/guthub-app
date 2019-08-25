@@ -63,7 +63,8 @@ class GHAapp < Sinatra::Application
       if @payload['action'] === 'opened'
         handle_issue_opened_event(@payload)
       end
-    when 'pull request'
+    when 'pull_request'
+      pp @payload
       if @payload['action'] === 'merged'
         handle_pull_request_merged_event(@payload)
       end
@@ -84,7 +85,7 @@ class GHAapp < Sinatra::Application
     end
 
     def handle_pull_request_merged_event(payload)
-      logger.debug payload
+      
     end
     
     # Saves the raw payload and converts the payload to JSON format
