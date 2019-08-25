@@ -63,6 +63,10 @@ class GHAapp < Sinatra::Application
       if @payload['action'] === 'opened'
         handle_issue_opened_event(@payload)
       end
+    when 'pull request'
+      if @payload['action'] === 'merged'
+        handle_pull_request_merged_event(@payload)
+      end
     end
     
 
@@ -77,6 +81,10 @@ class GHAapp < Sinatra::Application
       repo = payload['repository']['full_name']
       issue_number = payload['issue']['number']
       @installation_client.add_labels_to_an_issue(repo, issue_number, ['needs-response'])
+    end
+
+    def handle_pull_request_merged_event(payload)
+      logger.debug payload
     end
     
     # Saves the raw payload and converts the payload to JSON format
