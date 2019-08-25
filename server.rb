@@ -85,7 +85,7 @@ class GHAapp < Sinatra::Application
     end
 
     def handle_pull_request_merged_event(payload)
-      
+      logger.debug 'ok'
     end
     
     # Saves the raw payload and converts the payload to JSON format
