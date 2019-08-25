@@ -58,9 +58,13 @@ class GHAapp < Sinatra::Application
 
   post '/event_handler' do
 
-    # # # # # # # # # # # #
-    # ADD YOUR CODE HERE  #
-    # # # # # # # # # # # #
+    case request.env['HTTP_X_GITHUB_EVENT']
+    when 'issues'
+      if @payload['action'] === 'opened'
+        handle_issue_opened_event(@payload)
+      end
+    end
+    
 
     200 # success status
   end
@@ -68,10 +72,13 @@ class GHAapp < Sinatra::Application
 
   helpers do
 
-    # # # # # # # # # # # # # # # # #
-    # ADD YOUR HELPER METHODS HERE  #
-    # # # # # # # # # # # # # # # # #
-
+    def handle_issue_opened_event(payload)
+      logger.debug 'ok'
+      repo = payload['repository']['full_name']
+      issue_number = payload['issue']['number']
+      @installation_client.add_labels_to_an_issue(repo, issue_number, ['needs-response'])
+    end
+    
     # Saves the raw payload and converts the payload to JSON format
     def get_payload_request(request)
       # request.body is an IO or StringIO object
