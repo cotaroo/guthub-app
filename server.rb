@@ -87,7 +87,7 @@ class GHAapp < Sinatra::Application
       logger.debug 'ok'
       logger.debug @payload["pull_request"]["head"]["ref"]
       repo = payload['repository']['full_name']
-      branch = @payload["pull_request"]["head"]["label"]
+      branch = payload["pull_request"]["head"]["ref"]
       @installation_client.delete_branch(repo, branch)
     end
     
