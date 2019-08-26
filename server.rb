@@ -66,7 +66,9 @@ class GHAapp < Sinatra::Application
     when 'pull_request'
       logger.debug @payload['action']
       logger.debug @payload['merged']
-      if @payload['action'] === 'closed' && @payload['merged'] === true
+      if @payload['action'] === 'closed' && @payload['pull_request']['merged'] === true
+        logger.debug @payload['action']
+        logger.debug @payload['merged']
         handle_pull_request_merged_event(@payload)
       end
     end
