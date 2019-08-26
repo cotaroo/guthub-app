@@ -88,7 +88,7 @@ class GHAapp < Sinatra::Application
       logger.debug @payload["pull_request"]["head"]["ref"]
       repo = payload['repository']['full_name']
       branch = @payload["pull_request"]["head"]["ref"]
-      delete_branch(repo, branch)
+      @installation_client.delete_branch(repo, branch)
     end
     
     # Saves the raw payload and converts the payload to JSON format
